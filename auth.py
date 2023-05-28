@@ -17,7 +17,7 @@ def register():
         password = request.form['password']
         db, c = get_db()
         error = None
-        c.execute('select id from user where username = %s', (username))
+        c.execute('select id from user where username = %s', (username,))
 
         if not username:
             error = 'username es requerido'
@@ -44,7 +44,7 @@ def login():
         password = request.form['password']
         db, c = get_db()
         error = None
-        c.execute('select * from user where username = %s', (username))
+        c.execute('select * from user where username = %s', (username,))
 
         if not username:
             error = 'username es requerido'
@@ -52,9 +52,9 @@ def login():
             error = 'password es requerido'
         user = c.fetchone()
         if user is None:
-            error = 'Usuario y/o contrasena invalida'
-        elif check_password_hash(user['password'], password):
-            error = 'Usuario y/o contrasena invalida'
+            error = 'Usuario y/o contrasena invalida.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Usuario y/o contrasena invalida-'
         
         if error is None:
             session.clear()
