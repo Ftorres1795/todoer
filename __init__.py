@@ -20,7 +20,11 @@ def create_app():
     from . import auth
 
     app.register_blueprint(auth.bp)
-    
+
+    from . import todo
+
+    app.register_blueprint(todo.bp)
+
     @app.route('/hola')
     def hola():
         return 'hola'
